@@ -63,5 +63,5 @@ pdata = {
 df = pd.DataFrame(pdata,columns=['Name of State / UT','Total Confirmed cases (Indian National)','Total Confirmed cases ( Foreign National )','Cured/Discharged/Migrated', 'Death'])
 
 df.to_csv('temp.csv', encoding='utf-8', index=False)
-df.plot(kind='barh',x='Name of State / UT', y='Total Confirmed cases (Indian National)',figsize=(18,8))
-plt.savefig('plot.png')
+#df.plot(kind='barh',x='Name of State / UT', y='Total Confirmed cases (Indian National)',figsize=(18,8))
+#plt.savefig('plot.png')
