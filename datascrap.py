@@ -6,70 +6,66 @@ from datetime import date
 
 url="https://www.mohfw.gov.in/"
 
-#GET req to fetch data 
-html_content = re.get(url).text
 
-#parsing html content 
-soup = BeautifulSoup(html_content, "lxml")
+def scrap():
+    #GET req to fetch data 
+    html_content = re.get(url).text
 
-data = []
-headers = []
-sname = []
-Tcin = []
-Tcfn = []
-cured = []
-death = []
+    data = []
+    headers = []
+    sname = []
+    Tcin = []
+    Tcfn = []
+    cured = []
+    death = []
 
-table_div = soup.find('div', {'id':'cases'})
-table = table_div.find('table')
-
-head = table.find_all('th')
-for h in head:
-    headers.append(h.text.strip())
-
-table_body = table.find("tbody")
-rows  = table_body.find_all('tr')
+    #parsing html content 
+    soup = BeautifulSoup(html_content, "lxml")
 
 
+    table_div = soup.find('div', {'id':'cases'})
+    table = table_div.find('table')
 
-#data.append(headers)
+    head = table.find_all('th')
+    for h in head:
+        headers.append(h.text.strip())
 
-for row in rows:
-    cols = row.find_all('td')
-    cols = [ele.text.strip() for ele in cols]
-    data.append([ele for ele in cols if ele])
-
-#data[-1].insert(0,None)
-total = data[-1]
-data = data[:-1]
-#print(headers)
+    table_body = table.find("tbody")
+    rows  = table_body.find_all('tr')
 
 
 
-for d in data:
-    sname.append(d[1])
-    Tcin.append(int(d[2]))
-    Tcfn.append(int(d[3]))
-    cured.append(int(d[4]))
-    death.append(int(d[5]))
+    #data.append(headers)
+
+    for row in rows:
+        cols = row.find_all('td')
+        cols = [ele.text.strip() for ele in cols]
+        data.append([ele for ele in cols if ele])
+
+    #data[-1].insert(0,None)
+    total = data[-1]
+    data = data[:-1]
+    #print(headers)
+    print(total)
 
 
-pdata = { 
-    'Name of State / UT':sname, 
-    'Total Confirmed cases (Indian National)':Tcin, 
-    'Total Confirmed cases ( Foreign National )':Tcfn, 
-    'Cured/Discharged/Migrated':cured, 
-    'Death':death
-}
-df = pd.DataFrame(pdata,columns=['Name of State / UT','Total Confirmed cases (Indian National)','Total Confirmed cases ( Foreign National )','Cured/Discharged/Migrated', 'Death'])
+    for d in data:
+        sname.append(d[1])
+        Tcin.append(int(d[2]))
+        Tcfn.append(int(d[3]))
+        cured.append(int(d[4]))
+        death.append(int(d[5]))
 
-df.to_csv('temp.csv', encoding='utf-8', index=False)
 
-#plot graph
-df.plot(kind='barh',x='Name of State / UT', y='Total Confirmed cases (Indian National)',figsize=(18,8))
-plt.title(f"COVID-19 India  {date.today()}")
-plt.savefig('affected.png')
+    pdata = { 
+        'Name of State / UT':sname, 
+        'Total Confirmed cases (Indian National)':Tcin, 
+        'Total Confirmed cases ( Foreign National )':Tcfn, 
+        'Cured/Discharged/Migrated':cured, 
+        'Death':death
+    }
+    df = pd.DataFrame(pdata,columns=['Name of State / UT','Total Confirmed cases (Indian National)','Total Confirmed cases ( Foreign National )','Cured/Discharged/Migrated', 'Death'])
 
-df.plot(kind='barh',x='Name of State / UT', y='Death',figsize=(18,8))
-plt.title(f"COVID-19 India  {date.today()}")
-plt.savefig('death.png')
+    df.to_csv('data.csv', encoding='utf-8', index=False)
+
+scrap()
