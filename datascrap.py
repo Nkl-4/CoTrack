@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from datetime import date
 
 url="https://www.mohfw.gov.in/"
-
+total = []
 
 def scrap():
     #GET req to fetch data 
@@ -14,8 +14,7 @@ def scrap():
     data = []
     headers = []
     sname = []
-    Tcin = []
-    Tcfn = []
+    Tc = []
     cured = []
     death = []
 
@@ -43,29 +42,37 @@ def scrap():
         data.append([ele for ele in cols if ele])
 
     #data[-1].insert(0,None)
+    global total
     total = data[-1]
     data = data[:-1]
     #print(headers)
-    print(total)
-
+    #rint(total)
 
     for d in data:
         sname.append(d[1])
-        Tcin.append(int(d[2]))
-        Tcfn.append(int(d[3]))
-        cured.append(int(d[4]))
-        death.append(int(d[5]))
+        Tc.append(int(d[2]))
+        cured.append(int(d[3]))
+        death.append(int(d[4]))
 
 
     pdata = { 
         'Name of State / UT':sname, 
-        'Total Confirmed cases (Indian National)':Tcin, 
-        'Total Confirmed cases ( Foreign National )':Tcfn, 
+        'Total Confirmed cases':Tc, 
         'Cured/Discharged/Migrated':cured, 
         'Death':death
     }
-    df = pd.DataFrame(pdata,columns=['Name of State / UT','Total Confirmed cases (Indian National)','Total Confirmed cases ( Foreign National )','Cured/Discharged/Migrated', 'Death'])
+    df = pd.DataFrame(pdata,columns=['Name of State / UT','Total Confirmed cases','Cured/Discharged/Migrated', 'Death'])
 
     df.to_csv('data.csv', encoding='utf-8', index=False)
 
+    s = ""
+
+    for  ele in total:
+    	s+=ele
+    	s+=" "
+
+    with open('total.txt', 'w') as f:
+    	f.write(s)
+
+    
 scrap()
