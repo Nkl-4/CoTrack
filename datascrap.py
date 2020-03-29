@@ -8,4 +8,10 @@ html_content = re.get(url).text
 
 #parsing html content 
 soup = BeautifulSoup(html_content, "lxml")
-print(soup.prettify())
+
+data = []
+table_div = soup.find('div', {'id':'cases'})
+table = table_div.find('table')
+
+
+print(table)    
