@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests as re 
 import pandas as pd
 import matplotlib.pyplot as plt
+from datetime import date
 
 url="https://www.mohfw.gov.in/"
 
@@ -63,5 +64,12 @@ pdata = {
 df = pd.DataFrame(pdata,columns=['Name of State / UT','Total Confirmed cases (Indian National)','Total Confirmed cases ( Foreign National )','Cured/Discharged/Migrated', 'Death'])
 
 df.to_csv('temp.csv', encoding='utf-8', index=False)
-#df.plot(kind='barh',x='Name of State / UT', y='Total Confirmed cases (Indian National)',figsize=(18,8))
-#plt.savefig('plot.png')
+
+#plot graph
+df.plot(kind='barh',x='Name of State / UT', y='Total Confirmed cases (Indian National)',figsize=(18,8))
+plt.title(f"COVID-19 India  {date.today()}")
+plt.savefig('affected.png')
+
+df.plot(kind='barh',x='Name of State / UT', y='Death',figsize=(18,8))
+plt.title(f"COVID-19 India  {date.today()}")
+plt.savefig('death.png')
