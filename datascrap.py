@@ -30,8 +30,8 @@ for row in rows:
     cols = [ele.text.strip() for ele in cols]
     data.append([ele for ele in cols if ele])
 
-data[-1].insert(0,28)
-df = pd.DataFrame(data)
+# data[-1].insert(0,28)
+# df = pd.DataFrame(data)
 
 #df.to_csv('temp.csv', encoding='utf-8', index=False)
-print(df.iloc[1])
+print(f"{data[-1][0]} : {data[-1][1]} \t, Death : {data[-1][-1]}")
