@@ -63,7 +63,7 @@ def scrap():
     }
     df = pd.DataFrame(pdata,columns=['Name of State / UT','Total Confirmed cases','Cured/Discharged/Migrated', 'Death'])
 
-    df.to_csv('data.csv', encoding='utf-8', index=False)
+    df.to_csv(f'{date.today()}.csv', encoding='utf-8', index=False)
 
     s = ""
 

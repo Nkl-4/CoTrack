@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 from datetime import date
 import datascrap as ds
 import os.path
+import glob
 
-if not(os.path.isfile('data.csv')):
-    ds.scrap()
+#if not(os.path.isfile('data.csv')):
+ds.scrap()
 
-df = pd.read_csv('data.csv')
+df = pd.read_csv(*(glob.glob('*.csv')))
 
 with open('total.txt', 'r') as f:
     s = f.readline()
